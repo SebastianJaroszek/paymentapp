@@ -81,12 +81,27 @@ public class HourlyEmployee implements Payable {
         return payment;
     }
 
-    private BigDecimal calculatePayment(WorkingDay workingDay) {
-        int overHours = workingDay.getHours() - WORKING_HOURS;
-        int normalHours = workingDay.getHours() - overHours;
-        BigDecimal payment = BigDecimal.ZERO;
-        payment = payment.add(new BigDecimal(normalHours).multiply(hourlyRate));
-        payment = payment.add(new BigDecimal(overHours).multiply(hourlyRate.multiply(OVERHOURS_RATE)));
-        return payment;
+    public BigDecimal calculatePayment(WorkingDay workingDay) {
+        int workingHours = workingDay.getHours();
+        if (workingHours <= WORKING_HOURS){
+            return hourlyRate.multiply(new BigDecimal(workingHours));
+        } else {
+            int overHours = workingHours - WORKING_HOURS;
+            int normalHours = workingHours - overHours;
+            BigDecimal payment = BigDecimal.ZERO;
+            payment = payment.add(new BigDecimal(normalHours).multiply(hourlyRate));
+            payment = payment.add(new BigDecimal(overHours).multiply(hourlyRate.multiply(OVERHOURS_RATE)));
+            return payment;
+
+            /*BigDecimal normalPayment = hourlyRate
+                    .multiply(new BigDecimal(WORKING_HOURS));
+            int overhours = workingDay.getHours() - WORKING_HOURS;
+            BigDecimal overhourPayment = hourlyRate
+                    .multiply(OVERHOURS_RATE)
+                    .multiply(new BigDecimal(overhours));
+            return normalPayment
+                    .add(overhourPayment);*/
+
+        }
     }
 }
