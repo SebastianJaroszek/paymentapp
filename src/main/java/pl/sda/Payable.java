@@ -1,12 +1,12 @@
 package pl.sda;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface Payable {
 
-    boolean isPaymentDay(Date day);
+    boolean isPaymentDay(LocalDate day);
 
-    BigDecimal calculatePayment(Date day);
+    BigDecimal calculatePayment(LocalDate day);
 
 }
