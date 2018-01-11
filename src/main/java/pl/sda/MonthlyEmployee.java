@@ -15,10 +15,16 @@ public class MonthlyEmployee implements Payable {
         FREE_DAYS.add(DayOfWeek.SUNDAY);
     }
 
+    private final BigDecimal salary;
+
+    public MonthlyEmployee(BigDecimal salary) {
+        this.salary = salary;
+    }
+
     @Override
     public boolean isPaymentDay(LocalDate day) {
         LocalDate lastDay = LocalDate.of(day.getYear(), day.getMonth(), day.lengthOfMonth());
-        while(FREE_DAYS.contains(lastDay.getDayOfWeek())){
+        while (FREE_DAYS.contains(lastDay.getDayOfWeek())) {
             lastDay = lastDay.minusDays(1);
         }
         return day.equals(lastDay);
@@ -34,6 +40,10 @@ public class MonthlyEmployee implements Payable {
 
     @Override
     public BigDecimal calculatePayment(LocalDate day) {
-        return null;
+        if (isPaymentDay(day)) {
+            return salary;
+        } else {
+            return BigDecimal.ZERO;
+        }
     }
 }
