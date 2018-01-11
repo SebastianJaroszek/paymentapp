@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CommisionalEmployee implements Payable {
 
     private BigDecimal twoWeekSalary;
+    private BigDecimal commision;
     private List<Bill> bills;
 
     private static final Set<DayOfWeek> FREE_DAYS = new HashSet<>();
@@ -20,9 +22,14 @@ public class CommisionalEmployee implements Payable {
         FREE_DAYS.add(DayOfWeek.SUNDAY);
     }
 
-    public CommisionalEmployee(BigDecimal twoWeekSalary) {
+    public CommisionalEmployee(BigDecimal twoWeekSalary, BigDecimal commision) {
         this.twoWeekSalary = twoWeekSalary;
+        this.commision = commision;
         this.bills = new ArrayList<>();
+    }
+
+    public void addBill(Bill bill) {
+        bills.add(bill);
     }
 
     @Override
@@ -52,8 +59,53 @@ public class CommisionalEmployee implements Payable {
         return date.plusDays(7);
     }
 
+
+    /*
+    przypadki:
+    od 1 stycznia do drugiego piątku w roku
+    od co drugiego piątku do poniedziałku dwa tygodnie wcześniej
+    od końca roku do poniedziałku przypadającego po ostatnim co drugim piątku
+     */
     @Override
     public BigDecimal calculatePayment(LocalDate day) {
+        if (isPaymentDay(day)) {
+            LocalDate from = findMatchingFirstDay(day);
+            List<Bill> bills = findBills(from, day);
+            return calculatePayment(bills);
+        } else {
+            return BigDecimal.ZERO;
+        }
+    }
+
+    private BigDecimal calculatePayment(List<Bill> bills) {
         return null;
     }
+
+    /**
+     * Metoda znajduje pierwszy dzień okresu do wypłaty
+     *
+     * @param day ostatni dzień okresu
+     * @return pierwszy dzień okresu
+     */
+    private LocalDate findMatchingFirstDay(LocalDate day) {
+        if (day.equals(findSecondFriday(day.getYear()))) {
+            return LocalDate.of(day.getYear(), 1, 1);
+        } else if (isLastWorkingDayOfYear(day)) {
+            while (!isSecondFriday(day)) {
+                day = day.minusDays(1);
+            }
+            return day.plusDays(3);
+        } else {
+            return day.minusDays(11);
+        }
+    }
+
+    private List<Bill> findBills(LocalDate fromDate, LocalDate toDate) {
+        List<Bill> foundedBills = new ArrayList<>();
+        bills.stream()
+                .filter(bill -> bill.isBetween(fromDate, toDate))
+                .collect(Collectors.toList());
+        return new ArrayList<>();
+    }
+
 }
