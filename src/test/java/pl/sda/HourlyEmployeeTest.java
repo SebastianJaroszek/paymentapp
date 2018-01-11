@@ -32,7 +32,7 @@ public class HourlyEmployeeTest {
     private HourlyEmployee hourlyEmployee;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         hourlyEmployee = new HourlyEmployee(HOURLY_RATE);
     }
 
