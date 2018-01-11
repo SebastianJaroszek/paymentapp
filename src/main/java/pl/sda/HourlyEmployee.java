@@ -35,10 +35,6 @@ public class HourlyEmployee implements Payable {
     @Override
     public BigDecimal calculatePayment(LocalDate day) {
         if (isPaymentDay(day)) {
-            /*findMonday;
-            searchDaysBetweenMondayAndFriday;
-            wyplata dla jednego dnia;
-            wyplata dla wszystkich dni*/
             LocalDate monday = findMonday(day);
             List<WorkingDay> weekWorkingDays = findWorkingDays(monday, day);
             return calculatePayment(weekWorkingDays);
@@ -48,13 +44,6 @@ public class HourlyEmployee implements Payable {
     }
 
     private List<WorkingDay> findWorkingDays(LocalDate fromDay, LocalDate toDay) {
-        /*List<WorkingDay> workingDays = new ArrayList<>();
-        for (WorkingDay workingDay : this.workingDays) {
-            if (workingDay.isBetween(monday, day)) {
-                workingDays.add(workingDay);
-            }
-        }
-        return workingDays;*/
         return workingDays.stream()
                 .filter(workingDay -> workingDay.isBetween(fromDay, toDay))
                 .collect(Collectors.toList());
