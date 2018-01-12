@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static pl.sda.DateUtils.findMonday;
+
 @Data
 public class HourlyEmployee implements Payable {
 
@@ -49,19 +51,6 @@ public class HourlyEmployee implements Payable {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Znajduje poniedziałek dla danego piątku
-     *
-     * @param day piątek
-     * @return pasujący poniedziałek
-     */
-    private LocalDate findMonday(LocalDate day) {
-        if (day.getDayOfWeek() != DayOfWeek.FRIDAY) {
-            throw new IllegalStateException("Metoda findMonday() musi być wywołana dla piątku.");
-        }
-        return day.minusDays(4);
-    }
-
     private BigDecimal calculatePayment(List<WorkingDay> weekWorkingDays) {
         BigDecimal payment = BigDecimal.ZERO;
         for (WorkingDay workingDay : weekWorkingDays) {
@@ -81,16 +70,6 @@ public class HourlyEmployee implements Payable {
             payment = payment.add(new BigDecimal(normalHours).multiply(hourlyRate));
             payment = payment.add(new BigDecimal(overHours).multiply(hourlyRate.multiply(OVERHOURS_RATE)));
             return payment;
-
-            /*BigDecimal normalPayment = hourlyRate
-                    .multiply(new BigDecimal(WORKING_HOURS));
-            int overhours = workingDay.getHours() - WORKING_HOURS;
-            BigDecimal overhourPayment = hourlyRate
-                    .multiply(OVERHOURS_RATE)
-                    .multiply(new BigDecimal(overhours));
-            return normalPayment
-                    .add(overhourPayment);*/
-
         }
     }
 }

@@ -12,20 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HourlyEmployeeTest {
 
-    //testy metody isPaymentDay(LocalDate day)
-    //+ metoda powinna zwrócić true dla piątku
-    //+ metoda powinna zwrócić false dla dnia innego niż piątek
-
-    //testy metody calculatePayment(LocalDate day)
-    //+ wywołanie metody calculatePayment w dzień inny niż piątek (0?)
-    //wywołanie metody w piątek:
-    //  + nie ma zupełnie dni pracujących
-    //  + są dni pracujące poza rozpatrywanym tygodniem (przed i po tygodniu)
-    //  + są normalne godziny tylko w jeden dzień
-    //  + są nadgodziny ale tylko w jednym dniu
-    //  + są przynajmniej dwa dni przepracowane
-
-
     private static final BigDecimal HOURLY_RATE = new BigDecimal("10");
     private static final LocalDate FRIDAY = LocalDate.of(2018, 1, 12);
     private static final LocalDate MONDAY = LocalDate.of(2018, 1, 8);
@@ -47,13 +33,6 @@ class HourlyEmployeeTest {
     void shouldReturnFalseForOtherDayThanFriday() {
         assertFalse(hourlyEmployee.isPaymentDay(MONDAY));
     }
-
-    /*@Test
-    void paymentShouldBeCalculated() {
-        WorkingDay workingDay = new WorkingDay(FRIDAY, 12);
-        BigDecimal calculatePayment = hourlyEmployee.calculatePayment(workingDay);
-        assertEquals(new BigDecimal("140.0"), calculatePayment);
-    }*/
 
     //wywołanie metody calculatePayment(day) w dzień inny niż piątek (0?)
     @Test

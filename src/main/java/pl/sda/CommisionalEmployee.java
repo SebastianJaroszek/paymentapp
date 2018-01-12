@@ -1,13 +1,12 @@
 package pl.sda;
 
 import java.math.BigDecimal;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
+
+import static pl.sda.DateUtils.*;
 
 public class CommisionalEmployee implements Payable {
 
@@ -15,12 +14,7 @@ public class CommisionalEmployee implements Payable {
     private BigDecimal commision;
     private List<Bill> bills;
 
-    private static final Set<DayOfWeek> FREE_DAYS = new HashSet<>();
 
-    static {
-        FREE_DAYS.add(DayOfWeek.SATURDAY);
-        FREE_DAYS.add(DayOfWeek.SUNDAY);
-    }
 
     public CommisionalEmployee(BigDecimal twoWeekSalary, BigDecimal commision) {
         this.twoWeekSalary = twoWeekSalary;
@@ -35,28 +29,6 @@ public class CommisionalEmployee implements Payable {
     @Override
     public boolean isPaymentDay(LocalDate day) {
         return isSecondFriday(day) || isLastWorkingDayOfYear(day);
-    }
-
-    private boolean isLastWorkingDayOfYear(LocalDate day) {
-        LocalDate lastDay = LocalDate.of(day.getYear(), 12, day.lengthOfMonth());
-        while (FREE_DAYS.contains(lastDay.getDayOfWeek())) {
-            lastDay = lastDay.minusDays(1);
-        }
-        return day.equals(lastDay);
-    }
-
-    private boolean isSecondFriday(LocalDate day) {
-        LocalDate secondFriday = findSecondFriday(day.getYear());
-        int days = day.getDayOfYear() - secondFriday.getDayOfYear();
-        return days % 14 == 0;
-    }
-
-    private LocalDate findSecondFriday(int year) {
-        LocalDate date = LocalDate.of(year, 1, 1);
-        while (date.getDayOfWeek() != DayOfWeek.FRIDAY) {
-            date = date.plusDays(1);
-        }
-        return date.plusDays(7);
     }
 
 
@@ -80,13 +52,12 @@ public class CommisionalEmployee implements Payable {
 
     private int countWorkingDays(LocalDate fromDate, LocalDate toDate) {
         int workingDays = 0;
-        do {
-            if (!(FREE_DAYS.contains(fromDate.getDayOfWeek()))) {
+        while (fromDate.compareTo(toDate) <= 0) {
+            if (isWorkingDay(fromDate)) {
                 workingDays++;
             }
             fromDate = fromDate.plusDays(1);
         }
-        while (fromDate.compareTo(toDate) <= 0);
         return workingDays;
     }
 
@@ -121,10 +92,9 @@ public class CommisionalEmployee implements Payable {
     }
 
     private List<Bill> findBills(LocalDate fromDate, LocalDate toDate) {
-        List<Bill> foundedBills = bills.stream()
+        return bills.stream()
                 .filter(bill -> bill.isBetween(fromDate, toDate))
                 .collect(Collectors.toList());
-        return foundedBills;
     }
 
 }

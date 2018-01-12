@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WorkingDayTest {
 
-
-    //private static final int WORKING_HOURS = 8;
     private static final LocalDate LOCAL_DATE = LocalDate.of(2018, 1, 11);
     private static final WorkingDay WORKING_DAY = new WorkingDay(LOCAL_DATE, 8);
 

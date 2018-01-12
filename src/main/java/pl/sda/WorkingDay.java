@@ -18,13 +18,6 @@ public class WorkingDay {
      * @return true jeżeli working day znajduje się w podanym okresie
      */
     public boolean isBetween(LocalDate fromDate, LocalDate toDate) {
-        boolean result = false;
-        if ((date.isAfter(fromDate) || date.isEqual(fromDate))
-                && date.isBefore(toDate) || date.isEqual(toDate)) {
-            result = true;
-        }
-        return result;
-
-        //return fromDate.compareTo(date) <= 0 && date.compareTo(toDate) <= 0;
+        return fromDate.compareTo(date) <= 0 && date.compareTo(toDate) <= 0;
     }
 }

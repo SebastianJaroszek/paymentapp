@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MonthlyEmployeeTest {
 
-    static final BigDecimal SALARY = new BigDecimal(200);
+    private static final BigDecimal SALARY = new BigDecimal(200);
 
-    MonthlyEmployee monthlyEmployee;
+    private MonthlyEmployee monthlyEmployee;
 
     @BeforeEach
     void setup() {
