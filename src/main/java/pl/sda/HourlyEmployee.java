@@ -52,11 +52,9 @@ public class HourlyEmployee implements Payable {
     }
 
     private BigDecimal calculatePayment(List<WorkingDay> weekWorkingDays) {
-        BigDecimal payment = BigDecimal.ZERO;
-        for (WorkingDay workingDay : weekWorkingDays) {
-            payment = payment.add(calculatePayment(workingDay));
-        }
-        return payment;
+        return weekWorkingDays.stream()
+                .map(workingDay -> calculatePayment(workingDay))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private BigDecimal calculatePayment(WorkingDay workingDay) {

@@ -55,10 +55,9 @@ public class CommisionalEmployee implements Payable {
     }
 
     private BigDecimal calculatePayment(List<Bill> bills, int workingDays) {
-        BigDecimal sum = BigDecimal.ZERO;
-        for (Bill bill : bills) {
-            sum = sum.add(bill.getValue());
-        }
+        BigDecimal sum = bills.stream()
+                .map(bill -> bill.getValue())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal oneDaySalary = twoWeekSalary.divide(new BigDecimal(10));
         return oneDaySalary
                 .multiply(new BigDecimal(workingDays))
