@@ -17,11 +17,9 @@ public class App {
 
     private static void showPayments(List<Payable> payables, LocalDate day) {
         System.out.println("Wypłaty na dzień: " + day);
-        /*for (int i = 0; i < payables.size(); i++) {
-            System.out.println((i + 1) + ". " + payables.get(i).calculatePayment(day));
-        }*/
         payables.stream()
-                .forEach(payable -> System.out.println(payable.calculatePayment(day)));
+                .forEach(payable -> System.out.println("Pracownik: " + payable.getClass().getSimpleName()
+                        + ", wypłata: " + payable.calculatePayment(day) + "PLN"));
     }
 
     private static LocalDate readDate() {
