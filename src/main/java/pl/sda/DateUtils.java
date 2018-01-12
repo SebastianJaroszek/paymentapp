@@ -33,7 +33,7 @@ public class DateUtils {
     }
 
     public static boolean isLastWorkingDayOfMonth(LocalDate day) {
-        LocalDate lastDay = LocalDate.from(day);
+        LocalDate lastDay = LocalDate.of(day.getYear(), 12, day.lengthOfMonth()); //from(day)
         while (FREE_DAYS.contains(lastDay.getDayOfWeek())) {
             lastDay = lastDay.minusDays(1);
         }

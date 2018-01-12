@@ -31,13 +31,6 @@ public class CommisionalEmployee implements Payable {
         return isSecondFriday(day) || isLastWorkingDayOfYear(day);
     }
 
-
-    /*
-    przypadki:
-    od 1 stycznia do drugiego piątku w roku
-    od co drugiego piątku do poniedziałku dwa tygodnie wcześniej
-    od końca roku do poniedziałku przypadającego po ostatnim co drugim piątku
-     */
     @Override
     public BigDecimal calculatePayment(LocalDate day) {
         if (isPaymentDay(day)) {
