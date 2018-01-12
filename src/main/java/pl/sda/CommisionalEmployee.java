@@ -70,15 +70,35 @@ public class CommisionalEmployee implements Payable {
     public BigDecimal calculatePayment(LocalDate day) {
         if (isPaymentDay(day)) {
             LocalDate from = findMatchingFirstDay(day);
+            int workingDays = countWorkingDays(from, day);
             List<Bill> bills = findBills(from, day);
-            return calculatePayment(bills);
+            return calculatePayment(bills, workingDays);
         } else {
             return BigDecimal.ZERO;
         }
     }
 
-    private BigDecimal calculatePayment(List<Bill> bills) {
-        return null;
+    private int countWorkingDays(LocalDate fromDate, LocalDate toDate) {
+        int workingDays = 0;
+        do {
+            if (!(FREE_DAYS.contains(fromDate.getDayOfWeek()))) {
+                workingDays++;
+            }
+            fromDate = fromDate.plusDays(1);
+        }
+        while (fromDate.compareTo(toDate) <= 0);
+        return workingDays;
+    }
+
+    private BigDecimal calculatePayment(List<Bill> bills, int workingDays) {
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Bill bill : bills) {
+            sum = sum.add(bill.getValue());
+        }
+        BigDecimal oneDaySalary = twoWeekSalary.divide(new BigDecimal(10));
+        return oneDaySalary
+                .multiply(new BigDecimal(workingDays))
+                .add(sum.multiply(commision));
     }
 
     /**
@@ -101,11 +121,10 @@ public class CommisionalEmployee implements Payable {
     }
 
     private List<Bill> findBills(LocalDate fromDate, LocalDate toDate) {
-        List<Bill> foundedBills = new ArrayList<>();
-        bills.stream()
+        List<Bill> foundedBills = bills.stream()
                 .filter(bill -> bill.isBetween(fromDate, toDate))
                 .collect(Collectors.toList());
-        return new ArrayList<>();
+        return foundedBills;
     }
 
 }

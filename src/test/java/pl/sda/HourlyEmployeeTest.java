@@ -48,12 +48,12 @@ class HourlyEmployeeTest {
         assertFalse(hourlyEmployee.isPaymentDay(MONDAY));
     }
 
-    @Test
+    /*@Test
     void paymentShouldBeCalculated() {
         WorkingDay workingDay = new WorkingDay(FRIDAY, 12);
         BigDecimal calculatePayment = hourlyEmployee.calculatePayment(workingDay);
         assertEquals(new BigDecimal("140.0"), calculatePayment);
-    }
+    }*/
 
     //wywołanie metody calculatePayment(day) w dzień inny niż piątek (0?)
     @Test

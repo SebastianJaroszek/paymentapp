@@ -70,7 +70,7 @@ public class HourlyEmployee implements Payable {
         return payment;
     }
 
-    public BigDecimal calculatePayment(WorkingDay workingDay) {
+    private BigDecimal calculatePayment(WorkingDay workingDay) {
         int workingHours = workingDay.getHours();
         if (workingHours <= WORKING_HOURS){
             return hourlyRate.multiply(new BigDecimal(workingHours));
