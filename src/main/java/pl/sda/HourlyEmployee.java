@@ -1,5 +1,6 @@
 package pl.sda;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,12 +11,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static pl.sda.DateUtils.findMonday;
+import static pl.sda.DateUtils.findSaturday;
+import static pl.sda.DateUtils.isWorkingDay;
 
-@Data
 public class HourlyEmployee extends Employee implements Payable {
 
     private static final int WORKING_HOURS = 8;
     private static final BigDecimal OVERHOURS_RATE = new BigDecimal("1.5");
+    private static final BigDecimal WEEKEND_OVERHOURS_RATE = new BigDecimal("2");
 
     private final BigDecimal hourlyRate;
     private final List<WorkingDay> workingDays;
@@ -44,8 +47,8 @@ public class HourlyEmployee extends Employee implements Payable {
     @Override
     public BigDecimal calculatePayment(LocalDate day) {
         if (isPaymentDay(day)) {
-            LocalDate monday = findMonday(day);
-            List<WorkingDay> weekWorkingDays = findWorkingDays(monday, day);
+            LocalDate saturday = findSaturday(day);
+            List<WorkingDay> weekWorkingDays = findWorkingDays(saturday, day);
             return calculatePayment(weekWorkingDays);
         } else {
             return BigDecimal.ZERO;
@@ -66,7 +69,10 @@ public class HourlyEmployee extends Employee implements Payable {
 
     private BigDecimal calculatePayment(WorkingDay workingDay) {
         int workingHours = workingDay.getHours();
-        if (workingHours <= WORKING_HOURS){
+        if (!isWorkingDay(workingDay.getDate())) {
+            BigDecimal payment = hourlyRate.multiply(new BigDecimal(workingHours));
+            return payment.multiply(WEEKEND_OVERHOURS_RATE);
+        } else if (workingHours <= WORKING_HOURS) {
             return hourlyRate.multiply(new BigDecimal(workingHours));
         } else {
             int overHours = workingHours - WORKING_HOURS;

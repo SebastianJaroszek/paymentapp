@@ -1,5 +1,7 @@
 package pl.sda;
 
+import com.google.gson.Gson;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -11,16 +13,15 @@ import java.util.stream.Collectors;
 public class App {
 
     public static void main(String[] args) {
+        String json = "{\"twoWeekSalary\":100,\"commision\":0.25,\"bills\":[],\"name\":\"Adam\",\"surname\":\"Małysz\",\"address\":{\"city\":\"Lublin\",\"street\":\"Al. Racławickie\",\"buildingNumber\":35,\"doorNumber\":2,\"postalCode\":\"20-012\"},\"bankAccountNumber\":\"04 2004 0000 3043 2349 4930 1111\",\"pesel\":\"98031450223\",\"paymentMethod\":\"BANK_TRANSFER\"}";
+        Gson gson = new Gson();
+        CommisionalEmployee commisionalEmployee = gson.fromJson(json, CommisionalEmployee.class);
+        System.out.println(commisionalEmployee);
+
         List<Payable> employees = createEmployees();
         LocalDate day = readDate();
         showPayments(employees, day);
     }
-
-    /*private static List<Payable> castToPayable(List<Employee> employees){
-        return employees.stream()
-                .map(employee -> (Payable)employee)
-                .collect(Collectors.toList());
-    }*/
 
     private static List<Employee> castToEmployee(List<Payable> payables){
         return payables.stream()
@@ -33,25 +34,10 @@ public class App {
 
         List<Employee> employees = castToEmployee(payables);
 
-        employees.stream()
-                .forEach(employee -> System.out.println(employee.getName() + " "
-                + employee.getSurname() + "\n"
-                + employee.getPesel() + "\n"
-                + employee.getBankAccountNumber() + "\n"
-                + employee.getPaymentMethod().getDescription()));
-
-        payables.stream()
-                .forEach(payable -> System.out.println(", wypłata: " + payable.calculatePayment(day) + "PLN"));
+        for (int i = 0; i < employees.size(); i++){
+            System.out.println(employees.get(i) + "\nwypłata " + payables.get(i).calculatePayment(day) + " PLN");
+        }
     }
-
-    /*private static void showPayments(List<Employee> employees, LocalDate day) {
-        System.out.println("Wypłaty na dzień: " + day);
-        List<Payable> payables = castToPayable(employees);
-        employees.stream()
-                .forEach(employee -> System.out.println(employee));
-        payables.stream()
-                .forEach(payable -> System.out.println(", wypłata: " + payable.calculatePayment(day) + "PLN"));
-    }*/
 
     private static LocalDate readDate() {
         Scanner scanner = new Scanner(System.in);
@@ -85,6 +71,12 @@ public class App {
         commisionalEmployee.setBankAccountNumber("04 2004 0000 3043 2349 4930 1111");
         commisionalEmployee.setPesel("98031450223");
         commisionalEmployee.setPaymentMethod(PaymentMethod.BANK_TRANSFER);
+
+        Gson gson = new Gson();
+        String jsonResult = gson.toJson(commisionalEmployee);
+        System.out.println(jsonResult);
+
+
         commisionalEmployee.addBill(new Bill(LocalDate.of(2018, 1, 10), new BigDecimal(150)));
         commisionalEmployee.addBill(new Bill(LocalDate.of(2018, 1, 11), new BigDecimal(200)));
         employees.add(commisionalEmployee);
@@ -114,6 +106,7 @@ public class App {
         hourlyEmployee.addWorkingDay(new WorkingDay(LocalDate.of(2018, 1, 3), 7));
         hourlyEmployee.addWorkingDay(new WorkingDay(LocalDate.of(2018, 1, 4), 5));
         hourlyEmployee.addWorkingDay(new WorkingDay(LocalDate.of(2018, 1, 11), 5));
+        hourlyEmployee.addWorkingDay(new WorkingDay(LocalDate.of(2018, 1, 7), 5));
         employees.add(hourlyEmployee);
     }
 

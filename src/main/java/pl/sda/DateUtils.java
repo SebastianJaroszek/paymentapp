@@ -32,6 +32,19 @@ public class DateUtils {
         return day.minusDays(4);
     }
 
+    /**
+     * Znajduje sobotę dla danego piątku
+     *
+     * @param day piątek
+     * @return pasująca sobota
+     */
+    public static LocalDate findSaturday(LocalDate day) {
+        if (day.getDayOfWeek() != DayOfWeek.FRIDAY) {
+            throw new IllegalStateException("Metoda findSaturday() musi być wywołana dla piątku.");
+        }
+        return day.minusDays(6);
+    }
+
     public static boolean isLastWorkingDayOfMonth(LocalDate day) {
         LocalDate lastDay = LocalDate.of(day.getYear(), 12, day.lengthOfMonth()); //from(day)
         while (FREE_DAYS.contains(lastDay.getDayOfWeek())) {

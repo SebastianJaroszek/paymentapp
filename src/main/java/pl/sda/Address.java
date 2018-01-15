@@ -1,5 +1,9 @@
 package pl.sda;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+
 public class Address {
 
     private String city;
@@ -35,4 +39,14 @@ public class Address {
     public String getPostalCode() {
         return postalCode;
     }
+
+    @Override
+    public String toString() {
+        return "ulica " + street +
+                " " + buildingNumber +
+                "/" + doorNumber +
+                ", " + city +
+                "\nkod pocztowy: " + postalCode;
+    }
+
 }

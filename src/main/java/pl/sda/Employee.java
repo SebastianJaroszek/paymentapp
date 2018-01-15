@@ -64,4 +64,15 @@ public abstract class Employee {
     public String getPesel() {
         return pesel;
     }
+
+    @Override
+    public String toString() {
+        return "Pracownik " +
+                name +
+                " " + surname +
+                "\nadres: " + address +
+                "\nnumer konta: " + bankAccountNumber +
+                "\nPESEL: " + pesel +
+                "\nmetoda płatności: " + paymentMethod;
+    }
 }
