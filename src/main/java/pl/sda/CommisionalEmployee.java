@@ -14,8 +14,6 @@ public class CommisionalEmployee implements Payable {
     private BigDecimal commision;
     private List<Bill> bills;
 
-
-
     public CommisionalEmployee(BigDecimal twoWeekSalary, BigDecimal commision) {
         this.twoWeekSalary = twoWeekSalary;
         this.commision = commision;

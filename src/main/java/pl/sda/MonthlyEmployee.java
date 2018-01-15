@@ -9,6 +9,12 @@ public class MonthlyEmployee implements Payable {
 
     private final BigDecimal salary;
 
+    /*public MonthlyEmployee(String name, String surname, Address address, String bankAccountNumber,
+                           String pesel, PaymentMethod paymentMethod, BigDecimal salary) {
+        super(name, surname, address, bankAccountNumber, pesel, paymentMethod);
+        this.salary = salary;
+    }*/
+
     public MonthlyEmployee(BigDecimal salary) {
         this.salary = salary;
     }
