@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class App {
 
@@ -15,12 +16,42 @@ public class App {
         showPayments(employees, day);
     }
 
+    /*private static List<Payable> castToPayable(List<Employee> employees){
+        return employees.stream()
+                .map(employee -> (Payable)employee)
+                .collect(Collectors.toList());
+    }*/
+
+    private static List<Employee> castToEmployee(List<Payable> payables){
+        return payables.stream()
+                .map(payable -> (Employee)payable)
+                .collect(Collectors.toList());
+    }
+
     private static void showPayments(List<Payable> payables, LocalDate day) {
         System.out.println("Wypłaty na dzień: " + day);
+
+        List<Employee> employees = castToEmployee(payables);
+
+        employees.stream()
+                .forEach(employee -> System.out.println(employee.getName() + " "
+                + employee.getSurname() + "\n"
+                + employee.getPesel() + "\n"
+                + employee.getBankAccountNumber() + "\n"
+                + employee.getPaymentMethod().getDescription()));
+
         payables.stream()
-                .forEach(payable -> System.out.println("Pracownik: " + payable.getClass().getSimpleName()
-                        + ", wypłata: " + payable.calculatePayment(day) + "PLN"));
+                .forEach(payable -> System.out.println(", wypłata: " + payable.calculatePayment(day) + "PLN"));
     }
+
+    /*private static void showPayments(List<Employee> employees, LocalDate day) {
+        System.out.println("Wypłaty na dzień: " + day);
+        List<Payable> payables = castToPayable(employees);
+        employees.stream()
+                .forEach(employee -> System.out.println(employee));
+        payables.stream()
+                .forEach(payable -> System.out.println(", wypłata: " + payable.calculatePayment(day) + "PLN"));
+    }*/
 
     private static LocalDate readDate() {
         Scanner scanner = new Scanner(System.in);
