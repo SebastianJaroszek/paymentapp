@@ -47,6 +47,13 @@ public class App {
     private static void addCommisionalEmployee(List<Payable> employees) {
         CommisionalEmployee commisionalEmployee = new CommisionalEmployee(new BigDecimal(100),
                 new BigDecimal("0.25"));
+        commisionalEmployee.setName("Adam");
+        commisionalEmployee.setSurname("Małysz");
+        Address address = new Address("Lublin", "Al. Racławickie", 35, 2, "20-012");
+        commisionalEmployee.setAddress(address);
+        commisionalEmployee.setBankAccountNumber("04 2004 0000 3043 2349 4930 1111");
+        commisionalEmployee.setPesel("98031450223");
+        commisionalEmployee.setPaymentMethod(PaymentMethod.BANK_TRANSFER);
         commisionalEmployee.addBill(new Bill(LocalDate.of(2018, 1, 10), new BigDecimal(150)));
         commisionalEmployee.addBill(new Bill(LocalDate.of(2018, 1, 11), new BigDecimal(200)));
         employees.add(commisionalEmployee);
@@ -54,11 +61,25 @@ public class App {
 
     private static void addMonthlyEmpoyee(List<Payable> employees) {
         MonthlyEmployee monthlyEmployee = new MonthlyEmployee(new BigDecimal(1000));
+        monthlyEmployee.setName("Mariusz");
+        monthlyEmployee.setSurname("Pudzianowski");
+        Address address = new Address("Warszawa", "Słoneczna", 53, 4, "50-055");
+        monthlyEmployee.setAddress(address);
+        monthlyEmployee.setBankAccountNumber("04 3333 5555 6666 7777 8888 9999");
+        monthlyEmployee.setPesel("75051961032");
+        monthlyEmployee.setPaymentMethod(PaymentMethod.POSTAL_TRANSFER);
         employees.add(monthlyEmployee);
     }
 
     private static void addHourlyEmployee(List<Payable> employees) {
         HourlyEmployee hourlyEmployee = new HourlyEmployee(new BigDecimal(44));
+        hourlyEmployee.setName("Jan");
+        hourlyEmployee.setSurname("Kowalski");
+        Address address = new Address("Wrocław", "Szkolna", 60, 18, "70-555");
+        hourlyEmployee.setAddress(address);
+        hourlyEmployee.setBankAccountNumber("04 9999 8888 7777 6666 5555 4444");
+        hourlyEmployee.setPesel("63021035353");
+        hourlyEmployee.setPaymentMethod(PaymentMethod.CASH);
         hourlyEmployee.addWorkingDay(new WorkingDay(LocalDate.of(2018, 1, 3), 7));
         hourlyEmployee.addWorkingDay(new WorkingDay(LocalDate.of(2018, 1, 4), 5));
         hourlyEmployee.addWorkingDay(new WorkingDay(LocalDate.of(2018, 1, 11), 5));

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 import static pl.sda.DateUtils.isWorkingDay;
 
-public class MonthlyEmployee implements Payable {
+public class MonthlyEmployee extends Employee implements Payable {
 
     private final BigDecimal salary;
 

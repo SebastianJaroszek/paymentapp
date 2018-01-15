@@ -8,11 +8,20 @@ import java.util.stream.Collectors;
 
 import static pl.sda.DateUtils.*;
 
-public class CommisionalEmployee implements Payable {
+public class CommisionalEmployee extends Employee implements Payable {
 
     private BigDecimal twoWeekSalary;
     private BigDecimal commision;
     private List<Bill> bills;
+
+    /*public CommisionalEmployee(String name, String surname, Address address, String bankAccountNumber,
+                               String pesel, PaymentMethod paymentMethod, BigDecimal twoWeekSalary,
+                               BigDecimal commision, List<Bill> bills) {
+        super(name, surname, address, bankAccountNumber, pesel, paymentMethod);
+        this.twoWeekSalary = twoWeekSalary;
+        this.commision = commision;
+        this.bills = bills;
+    }*/
 
     public CommisionalEmployee(BigDecimal twoWeekSalary, BigDecimal commision) {
         this.twoWeekSalary = twoWeekSalary;

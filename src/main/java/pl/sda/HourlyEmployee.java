@@ -12,13 +12,20 @@ import java.util.stream.Collectors;
 import static pl.sda.DateUtils.findMonday;
 
 @Data
-public class HourlyEmployee implements Payable {
+public class HourlyEmployee extends Employee implements Payable {
 
     private static final int WORKING_HOURS = 8;
     private static final BigDecimal OVERHOURS_RATE = new BigDecimal("1.5");
 
     private final BigDecimal hourlyRate;
     private final List<WorkingDay> workingDays;
+
+    /*public HourlyEmployee(String name, String surname, Address address, String bankAccountNumber, String pesel,
+                          PaymentMethod paymentMethod, BigDecimal hourlyRate, List<WorkingDay> workingDays) {
+        super(name, surname, address, bankAccountNumber, pesel, paymentMethod);
+        this.hourlyRate = hourlyRate;
+        this.workingDays = workingDays;
+    }*/
 
     public HourlyEmployee(BigDecimal hourlyRate) {
         this.hourlyRate = hourlyRate;
